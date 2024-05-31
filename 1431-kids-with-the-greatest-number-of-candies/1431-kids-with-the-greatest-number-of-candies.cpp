@@ -7,7 +7,8 @@ public:
         int m = *max_element(candies.begin(), candies.end());
         vector<bool> v;
         for(int& it:candies) {
-            if(extraCandies + it >= m) v.push_back(true);
+            it += extraCandies;
+            if(it >= m) v.push_back(true);
             else v.push_back(false);
         }
         return v;
