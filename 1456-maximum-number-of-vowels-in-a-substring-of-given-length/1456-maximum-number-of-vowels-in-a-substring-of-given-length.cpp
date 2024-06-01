@@ -1,10 +1,10 @@
 class Solution {
 public:
-    int isVowel(char c) {
-        unordered_map<char, bool> vowelTable = {
-            {'a', true}, {'e', true}, {'i', true}, {'o', true}, {'u', true}
+    bool isVowel(char c) {
+        static const bool vowelLookupTable[256] = {
+            ['a'] = true, ['e'] = true, ['i'] = true, ['o'] = true, ['u'] = true
         };
-        return vowelTable[c];
+        return vowelLookupTable[static_cast<unsigned char>(c)];
     }
     int maxVowels(string s, int k) {
         ios_base::sync_with_stdio(false);
