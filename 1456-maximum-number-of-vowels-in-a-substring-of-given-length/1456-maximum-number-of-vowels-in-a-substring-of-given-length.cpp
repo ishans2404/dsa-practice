@@ -1,21 +1,21 @@
 class Solution {
 public:
-    bool isVowel(char c) {
-        static const bool vowelLookupTable[256] = {
-            ['a'] = true, ['e'] = true, ['i'] = true, ['o'] = true, ['u'] = true
-        };
-        return vowelLookupTable[static_cast<unsigned char>(c)];
-    }
     int maxVowels(string s, int k) {
         ios_base::sync_with_stdio(false);
         cin.tie(nullptr);
         cout.tie(nullptr);
-
+        
+        vector<bool> alph(122, false);
+        alph[97] = 1;
+        alph[101] = 1;
+        alph[105] = 1;
+        alph[111] = 1;
+        alph[117] = 1;
         int vowel = 0, n = s.length();
-        for(int i=0; i<k; i++) vowel += isVowel(s[i]);
+        for(int i=0; i<k; i++) vowel += alph[s[i]];
         int maxVowel = vowel;
         for(int i=k; i<n; i++) {
-            vowel += isVowel(s[i]) - isVowel(s[i-k]);
+            vowel += alph[s[i]] - alph[s[i-k]];
             maxVowel = max(maxVowel, vowel);
         }
         return maxVowel;
