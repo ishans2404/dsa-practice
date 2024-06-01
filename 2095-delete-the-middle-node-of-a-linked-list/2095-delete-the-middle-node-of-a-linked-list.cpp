@@ -1,3 +1,60 @@
+#pragma GCC optimize("O3,unroll-loops")
+#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
+
+static const bool Booster = [](){
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    std::cout.tie(nullptr);
+    return true;
+}();
+
+inline bool is_digit(char c) {
+    return c >= '0' && c <= '9';
+}
+
+std::array<int, 100000> nums;
+void parse_input_and_solve(std::ofstream& out, const std::string& s) {
+    const int N = s.size();
+    int left = 0;
+    int idx = 0;
+    while (left < N) {
+        if (!is_digit(s[left])) {
+            ++left;
+            continue;
+        }
+        int right = left;
+        int value = 0;
+        while (right < N && is_digit(s[right])) {
+            value = value * 10 + (s[right] - '0');
+            ++right;
+        }
+        left = right;
+        nums[idx] = value;
+        ++idx;
+    }
+    out << "[";
+    const int M = idx;
+    for (int i = 0; i < M; ++i) {
+        if (i != M / 2) {
+            out << nums[i];
+            if (i < M - 1 && M > 2) {
+                out << ",";
+            }
+        }
+    }
+    out << "]\n";
+}
+
+bool Solve = [](){
+    std::ofstream out("user.out");
+    for (std::string s; std::getline(std::cin, s);) {
+        parse_input_and_solve(out, s);
+    }
+    out.flush();
+    exit(0);
+    return true;
+}();
+
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -11,22 +68,25 @@
 class Solution {
 public:
     ListNode* deleteMiddle(ListNode* head) {
-        int n = 0, i = 0;
-        ListNode* it = head;
-        while(it) {
-            n++;
-            it = it->next;
+        if(!head->next) {
+            delete head;
+            return nullptr;
         }
-        if(n == 1) return nullptr;
-        it = head;
-        while(i < n/2-1) {
-            i++;
-            it = it->next;
+        ListNode* prev = nullptr;
+        ListNode* slow = head;
+        ListNode* fast = head;
+        // fast moves 2x faster than slow.
+        // when fast is at end, slow is at middle;
+        while(fast && fast->next) {
+            prev = slow;
+            slow = slow->next;
+            fast = fast->next->next;
         }
-        ListNode* current = it->next;
-        ListNode* ahead = current->next;
-        if(!ahead) it->next = nullptr;
-        else it->next = ahead;
+        // now slow is the middle node
+        prev->next = slow->next;
+        slow->next = nullptr;
+        delete slow;
+
         return head;
     }
 };
