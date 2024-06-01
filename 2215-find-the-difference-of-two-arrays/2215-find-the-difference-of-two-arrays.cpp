@@ -12,12 +12,11 @@ public:
         temp = b1;
         b1 = b1 & ~b2;
         b2 = b2 & ~temp;
-        vector<int> v1, v2;
+        vector<vector<int>> v(2, vector<int>());
         for(int i=0; i<2001; i++) {
-            if(b1[i]) v1.push_back(i-1000);
-            else if(b2[i]) v2.push_back(i-1000);
+            if(b1[i]) v[0].push_back(i-1000);
+            else if(b2[i]) v[1].push_back(i-1000);
         }
-        vector<vector<int>> v = {v1, v2};
         return v;
     }
 };
