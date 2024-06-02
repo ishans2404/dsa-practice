@@ -39,25 +39,26 @@ void parse_input_and_solve(std::ofstream& out, const std::string& s) {
         left = right;
         nums[idx++] = value;
     }
+
     int arr[idx];
     for(int i=0; i<idx; i++) arr[i] = nums[i];
-    out << "[";
-    // const int M = idx;
+    arr[0] = 1;
     int res = 1;
-    for(int i=0; i<idx; i++) res *= nums[i];
-    for(int i=0; i<idx; i++) {
-        if(nums[i] != 0) nums[i] = res/nums[i];
-        else {
-            int temp = 1;
-            for(int j=0; j<i; j++) temp *= arr[j];
-            for(int j=i+1; j<idx; j++) temp *= arr[j];
-            nums[i] = temp;      
-        }
-    }
     for(int i=0; i<idx-1; i++) {
-        out << nums[i] << ",";
+        res *= nums[i];
+        arr[i+1] = res;
     }
-    out << nums[idx-1] << "]\n";
+    res = 1;
+    for(int i=idx-1; i>=1; i--) {
+        res *= nums[i];
+        arr[i-1] *= res;
+    }
+
+    out << "[";
+    for(int i=0; i<idx-1; i++) {
+        out << arr[i] << ",";
+    }
+    out << arr[idx-1] << "]\n";
 }
 
 bool Solve = [](){
@@ -75,19 +76,20 @@ class Solution {
 public:
     vector<int> productExceptSelf(vector<int>& nums) {
         int idx = nums.size();
-        int arr[idx];
+        vector<int> arr(idx);
         for(int i=0; i<idx; i++) arr[i] = nums[i];
+        arr[0] = 1;
         int res = 1;
-        for(int n:nums) res *= n;
-        for(int i=0; i<idx; i++) {
-            if(nums[i] != 0) nums[i] = res/nums[i];
-            else {
-                int temp = 1;
-                for(int j=0; j<i; j++) temp *= arr[j];
-                for(int j=i+1; j<idx; j++) temp *= arr[j];
-                nums[i] = temp;      
-            }
+        for(int i=0; i<idx-1; i++) {
+            res *= nums[i];
+            arr[i+1] = res;
         }
-        return nums;
+        res = 1;
+        for(int i=idx-1; i>=1; i++) {
+            res *= nums[i];
+            arr[i-1] *= res;
+        }
+
+        return arr;
     }
 };
