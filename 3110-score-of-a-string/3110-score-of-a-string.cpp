@@ -10,10 +10,8 @@ static const bool Booster = [](){
 
 void parse_input_and_solve(std::ofstream& out, std::string& s) {
     int res = 0;
-    s.erase(s.begin());
-    s.pop_back();
     int n = s.size();
-    for(int i=0; i<n-1; i++) res += abs(s[i]-s[i+1]);
+    for(int i=1; i<n-2; i++) res += abs(s[i]-s[i+1]);
     out<<res<<endl;
 }
 
@@ -31,9 +29,10 @@ bool Solve = [](){
 class Solution {
 public:
     int scoreOfString(string s) {
-        int res = 0;    
-        int n = s.size();
-        for(int i=0; i<n-1; i++) res += abs(s[i]-s[i+1]);
-        return res;
+        // int res = 0;    
+        // int n = s.size();
+        // for(int i=0; i<n-1; i++) res += abs(s[i]-s[i+1]);
+        // return res;
+        return 0;
     }
 };
