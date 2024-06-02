@@ -5,13 +5,6 @@ public:
         cin.tie(nullptr);
         cout.tie(nullptr);
 
-        int r = s.size()-1;
-        if(r == 0) return;
-        int l = 0;
-        while(l < r) {
-            char t = s[l];
-            s[l++] = s[r];
-            s[r--] = t;
-        }
+        if(s.size() != 1) reverse(s.begin(), s.end());
     }
 };
