@@ -16,7 +16,8 @@ void parse_input_and_solve(std::ofstream& out, std::string& s) {
         else bit[s[it] - 39] = ~ bit[s[it] - 39];
         it++;
     }
-    int c = bit.count();
+    int c = 0;
+    for(int i=0; i<52; i++) if(bit[i]) c++;
     if(c == 0) out << n-1 << endl;
     else out << n-c << endl;
 }
