@@ -10,12 +10,17 @@ static const bool Booster = [](){
 
 
 void parse_input_and_solve(std::ofstream& out, std::string& s) {
-    s = s.substr(1, s.length()-2);
+    // s = s.substr(1, s.length()-2);
+    s.erase(s.begin());
+    s.pop_back();
     vector<string> res;
     istringstream iss(s);
     string word;
-    while(getline(iss, word, ',')) res.push_back(word.substr(1, word.length()-2));
-
+    while(getline(iss, word, ',')) {
+        word.erase(word.begin());
+        word.pop_back();
+        res.push_back(word);
+    }
     vector<int> freq(26), minFreq(26, INT_MAX);
     for(auto& w:res) {
         fill(freq.begin(), freq.end(), 0);
