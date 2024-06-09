@@ -1,4 +1,4 @@
-/*
+
 #pragma GCC optimize("O3,unroll-loops")
 #pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
 
@@ -22,28 +22,18 @@ void parse_input_and_solve(std::ofstream& out, std::string& s, std::string& t) {
     bool flag = false;
     int k = stoi(t);
     int n = nums.size();
-    unordered_map<int, int> map;
-    map[0] = -1;
-    int cumsum = 0;
+    int res = 0;
+    int prefixRem = 0;
+    vector<int> v(k, 0);
+    v[0] = 1;
 
     for(int i=0; i<n; i++) {
-        cumsum += nums[i];
-        int rem = cumsum % k;
-
-        if(map.find(rem) == map.end()) { // map[rem] not present
-            map[rem] = i;
-        }
-        else {
-            if(i - map[rem] > 1) {
-                flag = true;
-                goto label;
-            }
-        }
+        prefixRem = (prefixRem + nums[i] % k + k) % k;
+        res += v[prefixRem];
+        v[prefixRem]++;
     }
     
-    label:
-    if(flag) out<<"true"<<endl;
-    else out<<"false"<<endl;
+    out<<res<<endl;
 }
 
 bool Solve = []() {
@@ -57,7 +47,7 @@ bool Solve = []() {
     return true;
 }();
 
-*/
+
 
 
 class Solution {
