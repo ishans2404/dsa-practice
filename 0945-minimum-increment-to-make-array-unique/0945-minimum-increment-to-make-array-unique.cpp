@@ -1,7 +1,7 @@
 class Solution {
 public:
     int minIncrementForUnique(vector<int>& nums) {
-        bitset<200000> b;
+        bitset<110000> b;
         int n = nums.size(), c = 0;
         for(int i=0; i<n; i++) {
             int val = nums[i];
