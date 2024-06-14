@@ -1,19 +1,21 @@
 class Solution {
 public:
     int minIncrementForUnique(vector<int>& nums) {
-        auto [minimum, maximum] = minmax_element(nums.begin(), nums.end());
-        int n = nums.size(), min = *minimum, max = *maximum;
-        vector<int> freq(max-min + n+1, 0);
-        for(int i : nums) freq[i-min]++;
-        int count = 0, inc = 0;
-        for(int i=0; count < n; i++) {
-            int f = freq[i];
-            count += (f != 0);
-            if(f <= 1) continue;
-
-            freq[i+1] += (f-1);
-            inc += f-1;
+        vector<int> freq(100001, 0);
+        int minv = nums[0], maxv = nums[0], n = nums.size();
+        for(int i : nums) {
+            freq[i]++;
+            minv = min(i, minv);
+            maxv = max(i, maxv);
         }
-        return inc;
+
+        int c = 0, total = 0;
+        for(int i=minv; i<=maxv; i++) {
+            int f = freq[i];
+            c = c + f - !!(c | f);  // !!(c | f) = 0 if both c, f are zero, else 1
+            total += c;
+            freq[i] = 0;
+        }
+        return int(total + c*(c-1)/2);
     }
 };
