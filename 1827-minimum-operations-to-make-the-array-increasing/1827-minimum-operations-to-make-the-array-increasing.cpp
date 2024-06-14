@@ -11,11 +11,13 @@ static const bool Booster = [](){
 void parse_input_and_solve(std::ofstream& out, std::string& s) {
     s.erase(s.begin());
     s.pop_back();
-    vector<int> nums;
+    vector<int> nums, temp;
     istringstream iss(s);
     string word;
     while(getline(iss, word, ',')) {
-        nums.push_back(stoi(word));
+        int w = stoi(word);
+        nums.push_back(w);
+        temp.push_back(w);
     }
 
     int n = nums.size(), c = 0, t;
@@ -26,12 +28,14 @@ void parse_input_and_solve(std::ofstream& out, std::string& s) {
 
     for(int i=1; i<n; i++) {
         if(nums[i] <= nums[i-1]) {
-            t = nums[i-1] - nums[i] + 1;
-            nums[i] += t;
-            c += t;
+            nums[i] += nums[i-1] - nums[i] + 1;
         }
+        else continue;
     }
-    
+    for(int i=1; i<n; i++) {
+        c += nums[i] - temp[i];
+    }
+
     out << c << endl;
     label:
 }
