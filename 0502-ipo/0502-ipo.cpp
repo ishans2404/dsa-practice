@@ -1,30 +1,28 @@
 class Solution {
 public:
     int findMaximizedCapital(int k, int w, vector<int>& profits, vector<int>& capital) {
-        int n = profits.size();
-        vector<vector<int>> pairs(n);
-        for(int i=0; i<n; i++) {
-            pairs[i] = {capital[i], profits[i]};
+        vector<pair<int,int>> vec;
+        for(int i=0; i<profits.size(); i++){
+            vec.push_back({profits[i],capital[i]});
         }
-        sort(pairs.begin(), pairs.end());
-        for(int i=0; i<n; i++) cout<<pairs[i][0]<<" : "<<pairs[i][1]<<endl;
-        cout<<endl;
-        priority_queue<int> maxHeap;
-        for(int i=0; i<n; i++) {
-            if(w >= pairs[i][0]) {
-                maxHeap.push(pairs[i][1]);
-            }
-            else if(maxHeap.size() > 0 && k > 0) {
-                k--;
-                i--;
-                w += maxHeap.top();
-                maxHeap.pop();
-            }
+        auto comp = [](pair<int,int> a, pair<int,int> b){
+            return a.second < b.second;
+        };
+        sort(vec.begin(),vec.end(),comp);
+        priority_queue<int> pq;
+        int j=0;
+        while(j<profits.size() && vec[j].second <= w){
+            pq.push(vec[j].first);
+            j++;
         }
-        while(maxHeap.size() > 0 && k > 0) {
+        while(!pq.empty() && k > 0){
+            w += pq.top();
+            pq.pop();
+            while(j<profits.size() && vec[j].second <= w){
+                pq.push(vec[j].first);
+                j++;
+            }
             k--;
-            w += maxHeap.top();
-            maxHeap.pop();
         }
         return w;
     }
