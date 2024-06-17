@@ -10,17 +10,23 @@ static const bool Booster = [](){
 
 void parse_input_and_solve(std::ofstream& out, const std::string& s) {
     int c = stoi(s);
-    int st = sqrt(c);
+    long long int i=1, j=sqrt(c);
     if(c <= 2) {
         out<<"true\n";
         goto label;
     }
-    for(long i=0; i<=st; i++) {
-        double t = sqrt(c - i * i);
-        if(t == floor(t)) {
+    if(j*j==c) {
+        out<<"true\n";
+        goto label;
+    }
+    while(i<=j) {
+        long long sum = (i*i)+(j*j);
+        if(sum==c) {
             out<<"true\n";
             goto label;
         }
+        else if(sum<c) i++;
+        else j--;
     }
     out<<"false\n";
     label:
