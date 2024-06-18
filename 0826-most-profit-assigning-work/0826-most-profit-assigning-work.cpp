@@ -19,16 +19,15 @@ void parse_input_and_solve(std::ofstream& out, std::string& a, std::string& b, s
     vector<int> worker;
     vector<vector<int>> vec;
     string w;
-    int i = 0;
+    int n = 0;
 
     istringstream issa(a);
     while(getline(issa, w, ',')) vec.push_back({stoi(w), 0});
     istringstream issb(b);
-    while(getline(issb, w, ',')) vec[i++][1] += stoi(w);
+    while(getline(issb, w, ',')) vec[n++][1] += stoi(w);
     istringstream issc(c);
     while(getline(issc, w, ',')) worker.push_back(stoi(w));
 
-    int n = vec.size();
     int m = worker.size();
 
     sort(vec.begin(), vec.end());
