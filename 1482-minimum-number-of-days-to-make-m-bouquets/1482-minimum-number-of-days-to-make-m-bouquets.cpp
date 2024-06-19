@@ -1,7 +1,7 @@
 class Solution {
 public:
     int minDays(vector<int>& bloomDay, int m, int k) {
-        int l = 1, r = *max_element(bloomDay.begin(), bloomDay.end());;
+        int l = 0, r = *max_element(bloomDay.begin(), bloomDay.end());
         int ans = -1;
         int n = bloomDay.size();
         if((long long)m*k > n) return ans;
