@@ -18,7 +18,7 @@ void parse_input_and_solve(std::ofstream& out, std::string& s, std::string& t, s
     string w;
     while(getline(iss, w, ',')) bloomDay.push_back(stoi(w));
     
-    int l = 0, r = *max_element(bloomDay.begin(), bloomDay.end());
+    int l = *min_element(bloomDay.begin(), bloomDay.end()), r = *max_element(bloomDay.begin(), bloomDay.end());
     int ans = -1;
     int n = bloomDay.size();
     if((long long)m*k > n) goto lab;
