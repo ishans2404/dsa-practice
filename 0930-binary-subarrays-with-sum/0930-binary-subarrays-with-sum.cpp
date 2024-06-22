@@ -28,7 +28,30 @@ void parse_input_and_solve(std::ofstream& out, std::string& s, std::string& t) {
     string w;
     istringstream iss(s);
     while(getline(iss, w, ',')) nums.push_back(stoi(w));
-    out << f(nums, goal) - f(nums, goal-1) << endl;
+    
+    int temp;
+    
+    int l = 0, r = 0, n = nums.size(), sum = 0, c = 0;
+    while(r < n) {
+        sum += nums[r];
+        while(l <= r && sum > goal) {
+            sum -= nums[l++];
+        }
+        c += r++ - l;
+    }
+    temp = c;
+    goal--;
+    
+    l = 0, r = 0, sum = 0, c = 0;
+    while(r < n) {
+        sum += nums[r];
+        while(l <= r && sum > goal) {
+            sum -= nums[l++];
+        }
+        c += r++ - l;
+    }
+    
+    out << temp - c << endl;
 }
 
 bool Solve = []() {
