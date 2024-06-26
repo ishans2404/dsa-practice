@@ -11,28 +11,31 @@
  */
 class Solution {
 public:
-    vector<int> v;
-    void inorder(TreeNode* node) {
-        if(!node) return;
-        inorder(node->left);
-        v.push_back(node->val);
-        inorder(node->right);
+    void inorder(TreeNode* node, vector<int>& values) {
+        if (node == nullptr) return;
+        inorder(node->left, values);
+        values.push_back(node->val);
+        inorder(node->right, values);
     }
 
-    TreeNode* balance(int l, int r) {
-        if(l > r) return nullptr;
-        int m = l + (r-l) / 2;
-        TreeNode* left = balance(l, m-1);
-        TreeNode* right = balance(m+1, r);
-        return new TreeNode(v[m], left, right);
+    TreeNode* buildBalancedBST(vector<int>& values, int left, int right) {
+        if (left > right) return nullptr;
+        
+        int mid = left + (right - left) / 2;
+        TreeNode* root = new TreeNode(values[mid]);
+        root->left = buildBalancedBST(values, left, mid - 1);
+        root->right = buildBalancedBST(values, mid + 1, right);
+        
+        return root;
     }
 
     TreeNode* balanceBST(TreeNode* root) {
         std::ios_base::sync_with_stdio(false);
         std::cin.tie(nullptr);
         std::cout.tie(nullptr);
-        inorder(root);
-        int n = v.size();
-        return balance(0, n-1);
+        
+        vector<int> values;
+        inorder(root, values);
+        return buildBalancedBST(values, 0, values.size() - 1);
     }
 };
