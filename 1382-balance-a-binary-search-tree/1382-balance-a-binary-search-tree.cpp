@@ -11,18 +11,18 @@
  */
 class Solution {
 public:
-    void inorder(TreeNode* node, vector<int>& values) {
+    void inorder(TreeNode* node, vector<TreeNode*>& values) {
         if (node == nullptr) return;
         inorder(node->left, values);
-        values.push_back(node->val);
+        values.push_back(node);
         inorder(node->right, values);
     }
 
-    TreeNode* buildBalancedBST(vector<int>& values, int left, int right) {
+    TreeNode* buildBalancedBST(vector<TreeNode*>& values, int left, int right) {
         if (left > right) return nullptr;
         
         int mid = left + (right - left) / 2;
-        TreeNode* root = new TreeNode(values[mid]);
+        TreeNode* root = values[mid];
         root->left = buildBalancedBST(values, left, mid - 1);
         root->right = buildBalancedBST(values, mid + 1, right);
         
@@ -34,7 +34,7 @@ public:
         std::cin.tie(nullptr);
         std::cout.tie(nullptr);
         
-        vector<int> values;
+        vector<TreeNode*> values;
         inorder(root, values);
         return buildBalancedBST(values, 0, values.size() - 1);
     }
