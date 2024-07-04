@@ -14,22 +14,21 @@ void parse_input_and_solve(std::ofstream& out, std::string& s) {
     s.erase(s.begin());
     s.pop_back();
     string w;
-    vector<int> v;
     istringstream iss(s);
     int sum = 0;
+
+    string t = "[";
     while(getline(iss, w, ',')) {
         int val = stoi(w);
         if(val == 0) {
-            v.push_back(sum);
+            t += to_string(sum) + ",";
             sum = 0;
         }
         else sum += val;
     }
-
-    sum = v.size();
-    out << "[";
-    for(int i=0; i<sum-1; i++) out << v[i] << ",";
-    out << v[sum-1] << "]\n";
+    t.pop_back();
+    t += "]\n";
+    out << t;
 }
 
 bool Solve = [](){
