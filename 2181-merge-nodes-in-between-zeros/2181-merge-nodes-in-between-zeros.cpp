@@ -11,19 +11,33 @@
 class Solution {
 public:
     ListNode* mergeNodes(ListNode* head) {
-        ListNode dummy(0);
-        ListNode* tail = &dummy;
+        vector<int> v;
         ListNode* curr = head->next;
         int sum = 0;
         while(curr) {
             if(curr->val == 0) {
-                tail->next = new ListNode(sum);
-                tail = tail->next;
+                v.push_back(sum);
                 sum = 0;
             }
             else sum += curr->val;
             curr = curr->next;
         }
-        return dummy.next;
+        sum = v.size();
+        int i = 0;
+        curr = head;
+        while(i < sum-1) {
+            curr->val = v[i++];
+            curr = curr->next;
+        }
+        curr->val = v[i];
+        ListNode* temp = curr->next;
+        
+        while(temp) {
+            ListNode* prev = temp;
+            temp = temp->next;
+            delete prev;
+        }
+        curr->next = nullptr;
+        return head;
     }
 };
