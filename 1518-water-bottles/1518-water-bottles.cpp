@@ -10,12 +10,14 @@ static const bool Booster = [](){
 
 void parse_input_and_solve(std::ofstream& out, std::string& s, std::string& t) {
     int n = stoi(s), e = stoi(t);
-    int c = n;
+    int c = 0;
     while(n >= e) {
-        c += n / e;
-        n = n / e + n % e;
+        int k = n / e;
+        c += e * k;
+        n -= e * k;
+        n += k;
     }
-    out << c << endl;
+    out << c+n << endl;
 }
 
 bool Solve = []() {
