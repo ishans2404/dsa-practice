@@ -12,7 +12,6 @@ void parse_input_and_solve(std::ofstream& out, std::string& s) {
     s.erase(s.begin());
     s.pop_back();
     string w;
-    // vector<string> logs;
     istringstream iss(s);
     int c = 0;
     while(getline(iss, w, ',')) {
