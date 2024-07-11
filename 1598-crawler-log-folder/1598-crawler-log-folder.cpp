@@ -7,7 +7,9 @@ public:
         int c = 0;
         for(auto& s : logs) {
             if(s == "./") continue;
-            else if(s == "../") c = (c>0)? c-1 : c;
+            else if(s == "../") {
+                if(c > 0) c--;
+            }
             else c++;
         }
         return c;
