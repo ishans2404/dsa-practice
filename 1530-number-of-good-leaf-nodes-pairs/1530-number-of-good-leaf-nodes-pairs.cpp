@@ -11,38 +11,38 @@
  */
 class Solution {
 public:
+    vector<int> distanceToLeaves(TreeNode* cur, int& cnt, int dist){
+        if(!cur) return {};
+        if(!cur->left && !cur->right) return {1};
 
-    vector<int> recur(TreeNode* root, int distance, int &cnt){
-        if(!root) return {0};
-        if(!root->left && !root->right) return {1};
-        vector<int> left = recur(root->left, distance,cnt);
-        vector<int> right = recur(root->right,distance,cnt);
-        for(int x: left){
-            for(int y: right){
-                if(x > 0 && y>0){
-                    if(x+y <= distance) cnt++;
-                }
-            }
+        vector<int> lefts = distanceToLeaves(cur->left, cnt, dist);
+        vector<int> rights = distanceToLeaves(cur->right, cnt, dist);
+        vector<int> res(lefts.size() + rights.size()); 
+
+        int i = lefts.size() - 1, j = 0; 
+        for(; i >= 0; i--){ // O(L + R)
+            while(j < rights.size() && lefts[i] + rights[j] <= dist) j++;
+            cnt += j; 
         }
 
-        vector<int> ans;
-        for(int x: left){
-            if(x>0 && x<distance){
-                ans.push_back(x+1);
-            }
+        // sorted results 
+        int l = 0, r = 0, idx = 0;
+        while(l < lefts.size() && r < rights.size()){ // O(L + R)
+            if(lefts[l] < rights[r]) res[idx++] = lefts[l++] + 1;
+            else res[idx++] = rights[r++] + 1;
         }
-
-        for(int x: right){
-            if(x>0 && x<distance){
-                ans.push_back(x+1);
-            }
-        }
-        return ans;
+        while(l < lefts.size()) res[idx++] = lefts[l++] + 1;
+        while(r < rights.size())res[idx++] = rights[r++] + 1;
+        return res; 
     }
-
+    
     int countPairs(TreeNode* root, int distance) {
+        std::ios_base::sync_with_stdio(false);
+        std::cin.tie(nullptr);
+        std::cout.tie(nullptr);
+        
         int cnt = 0;
-        recur(root,distance,cnt);
+        distanceToLeaves(root, cnt, distance);
         return cnt;
     }
 };
