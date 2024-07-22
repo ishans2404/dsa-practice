@@ -1,22 +1,28 @@
+#include <execution>
+using namespace std;
+static auto _ = [](){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    return nullptr;
+}();
+
 class Solution {
 public:
-    vector<string> sortPeople(vector<string>& n, vector<int>& h) {
-        std::ios_base::sync_with_stdio(false);
-        std::cin.tie(nullptr);
-        std::cout.tie(nullptr);
-        
-        int num = h.size();
-        map<int, string> m;
+    vector<string> sortPeople(vector<string>& names, vector<int>& heights) {
+        vector<pair<string, int>> pairs{};
+        for(size_t i = 0; i < names.size(); i++)
+            pairs.push_back(make_pair(names[i], heights[i]));
 
-        for(int i=0; i<num; i++) {
-            m[h[i]] = n[i];
-        }
+        sort(execution::par_unseq, pairs.begin(), pairs.end(), [](const auto& a, const auto& b) -> bool
+        {
+            return a.second > b.second;
+        });
 
-        num--;
-        for(auto& it:m) {
-            n[num--] = it.second;
-        }
+        int i = 0;
+        for(const auto& p : pairs)
+            names[i++] = p.first;
 
-        return n;
+        return names;
     }
 };
