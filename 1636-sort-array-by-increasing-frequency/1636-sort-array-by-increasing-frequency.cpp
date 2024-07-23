@@ -48,9 +48,9 @@
 class Solution {
 public:
     vector<int> frequencySort(vector<int>& nums) {
-        std::ios_base::sync_with_stdio(false);
-        std::cin.tie(nullptr);
-        std::cout.tie(nullptr);
+        // std::ios_base::sync_with_stdio(false);
+        // std::cin.tie(nullptr);
+        // std::cout.tie(nullptr);
         
         int freq[201] = {0};
         for(int& i:nums) freq[i+100]++;
