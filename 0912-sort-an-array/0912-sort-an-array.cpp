@@ -12,22 +12,19 @@ static const bool Booster = [](){
 void parse_input_and_solve(std::ofstream& out, std::string& s) {
     s.erase(s.begin());
     s.pop_back();
-    priority_queue<int, vector<int>, greater<int>> pq; 
+    vector<int> v;
     istringstream iss(s);
     string w;
-    int n = 0, k = 0;
     while(getline(iss, w, ',')) {
-        pq.push(stoi(w));
-        n++;
+        v.push_back(stoi(w));
     }
+    make_heap(v.begin(), v.end());
+    sort_heap(v.begin(), v.end());
     out << "[";
-    while(!pq.empty()) {
-        k++;
-        if(k != n) out << pq.top() << ",";
-        else out << pq.top();
-        pq.pop();
+    for(int i=0; i<v.size()-1; i++) {
+        out << v[i] << ",";
     }
-    out << "]\n";
+    out << v[v.size()-1] << "]\n";
 }
 
 bool Solve = [](){
