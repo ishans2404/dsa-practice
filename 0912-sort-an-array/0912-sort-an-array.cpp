@@ -12,21 +12,20 @@ static const bool Booster = [](){
 void parse_input_and_solve(std::ofstream& out, std::string& s) {
     s.erase(s.begin());
     s.pop_back();
-    map<int, int> m;
+    priority_queue<int, vector<int>, greater<int>> pq; 
     istringstream iss(s);
     string w;
     int n = 0, k = 0;
     while(getline(iss, w, ',')) {
-        m[stoi(w)]++;
+        pq.push(stoi(w));
         n++;
     }
     out << "[";
-    for(auto& it:m) {
-        for(int i=0; i<it.second; i++) {
-            k++;
-            if(k != n) out << it.first << ",";
-            else out << it.first;
-        }
+    while(!pq.empty()) {
+        k++;
+        if(k != n) out << pq.top() << ",";
+        else out << pq.top();
+        pq.pop();
     }
     out << "]\n";
 }
