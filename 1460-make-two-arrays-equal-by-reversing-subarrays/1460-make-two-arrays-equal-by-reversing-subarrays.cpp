@@ -1,6 +1,3 @@
-#pragma GCC optimize("O3,unroll-loops")
-#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
-
 class Solution {
 public:
     bool canBeEqual(vector<int>& target, vector<int>& arr) {
