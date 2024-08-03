@@ -40,11 +40,11 @@ void parse_input_and_solve(std::ofstream& out, std::string& s, std::string& t) {
     istringstream ss(s);
     istringstream st(t);
     string w;
-    vector<string> target, arr;
-    while(getline(ss, w, ',')) target.push_back(w);
-    while(getline(st, w, ',')) arr.push_back(w);
-    sort(target.begin(), target.end());
-    sort(arr.begin(), arr.end());
+    vector<int> target, arr;
+    while(getline(ss, w, ',')) target.push_back(stoi(w));
+    while(getline(st, w, ',')) arr.push_back(stoi(w));
+    target = countSort(target);
+    arr = countSort(arr);
     int n = target.size();
     string ans = "true";
     for(int i=0; i<n; i++) {
