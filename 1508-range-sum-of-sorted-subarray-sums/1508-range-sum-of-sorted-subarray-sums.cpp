@@ -2,22 +2,19 @@ class Solution {
 public:
     int rangeSum(vector<int>& nums, int n, int l, int r) {
         vector<int> v;
-        long long s;
         const int mod = 1e9 + 7;
         for(int i=0; i<n; i++) {
+            int pre = 0;
             for(int j=i; j<n; j++) {
-                s = 0;
-                for(int k=i; k<=j; k++) {
-                    s += nums[k];
-                }
-                v.push_back(s);
+                pre += nums[j];
+                v.push_back(pre);
             }
         }
         sort(v.begin(), v.end());
-        s = 0;
-        for(int i=l-1; i<=r-1; i++) s += v[i];
-        s %= mod;
+        long long res = 0;
+        for(int i=l-1; i<=r-1; i++) res += v[i];
+        res %= mod;
 
-        return s;
+        return res;
     }
 };
