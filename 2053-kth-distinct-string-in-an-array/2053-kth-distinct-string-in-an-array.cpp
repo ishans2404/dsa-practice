@@ -13,28 +13,28 @@ void parse_input_and_solve(std::ofstream& out, std::string& s, std::string& t) {
     s.pop_back();
     int k = stoi(t);
     vector<string> arr;
-    unordered_map<string, int> d;
+    unordered_set<string> distinct, seen;
+    
     istringstream iss(s);
     string w;
     while(getline(iss, w, ',')) {
         w.erase(w.begin());
         w.pop_back();
         arr.push_back(w);
-        d[w]++;
+        if(!seen.insert(w).second) distinct.erase(w);
+        else distinct.insert(w);
     }
 
     string ans = "";
-    int count = 0;
-    for(const auto& x : arr) {
-        if(d[x] == 1) {
-            ans = x;
-            count++;
+    for (const string& str : arr) {
+        if(distinct.count(str) && --k == 0) {
+            ans = str;
+            break;
         }
-        if(count == k) break;
     }
 
     out<<"\"";
-    if(count == k) out<<ans;
+    if(k == 0) out<<ans;
     out<<"\""<<endl;
 }
 
