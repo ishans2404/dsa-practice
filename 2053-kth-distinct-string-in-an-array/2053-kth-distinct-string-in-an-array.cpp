@@ -1,74 +1,21 @@
-#pragma GCC optimize("O3,unroll-loops")
-#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
-
-static const bool Booster = [](){
-    std::ios_base::sync_with_stdio(false);
-    std::cin.tie(nullptr);
-    std::cout.tie(nullptr);
-    return true;
-}();
-
-void parse_input_and_solve(std::ofstream& out, std::string& s, std::string& t) {
-    s.erase(s.begin());
-    s.pop_back();
-    int k = stoi(t);
-    vector<string> arr;
-    unordered_set<string> distinct, seen;
-    
-    istringstream iss(s);
-    string w;
-    while(getline(iss, w, ',')) {
-        w.erase(w.begin());
-        w.pop_back();
-        arr.push_back(w);
-        if(!seen.insert(w).second) distinct.erase(w);
-        else distinct.insert(w);
-    }
-
-    string ans = "";
-    for (const string& str : arr) {
-        if(distinct.count(str) && --k == 0) {
-            ans = str;
-            break;
-        }
-    }
-
-    out<<"\"";
-    if(k == 0) out<<ans;
-    out<<"\""<<endl;
-}
-
-bool Solve = []() {
-    std::ofstream out("user.out");
-    std::string s, t;
-    while (std::getline(std::cin, s) && std::getline(std::cin, t)) {
-        parse_input_and_solve(out, s, t);
-    }
-    out.flush();
-    exit(0);
-    return true;
-}();
-
-
-
 class Solution {
 public:
     string kthDistinct(vector<string>& arr, int k) {
-        unordered_map<string, int> d;
-        for (const auto& x : arr) {
-            d[x]++;
-        }
-        
-        string ans = "";
-        int count = 0;
-        for (const auto& x : arr) {
-            if (d[x] == 1) {
-                ans = x;
-                count++;
+        std::ios_base::sync_with_stdio(false);
+        std::cin.tie(nullptr);
+        std::cout.tie(nullptr);
+
+        unordered_set<string> distinct, seen;
+        for (const string& str : arr) {
+            if (!seen.insert(str).second) {
+                distinct.erase(str);
+            } else {
+                distinct.insert(str);
             }
-            
-            if (count == k) {
-                return ans;
+        }
+        for (const string& str : arr) {
+            if (distinct.count(str) && --k == 0) {
+                return str;
             }
         }
         return "";
