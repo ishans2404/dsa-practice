@@ -1,19 +1,52 @@
 class Solution:
     def spiralMatrixIII(self, rows: int, cols: int, rStart: int, cStart: int) -> List[List[int]]:
-        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]  # right, down, left, up
-        result = []
-        steps = 1
-        d = 0
-        r, c = rStart, cStart
+        i = rStart
+        j = cStart
+        cRow, cCol = 0, 0
+        row, col = 1, 1
+        required = rows * cols
+
+        res = [[i, j]]
+
+        while len(res) < required:
+            while  cCol < col:
+                j += 1
+                if j > -1 and j < cols and i > -1 and i < rows:
+                    res.append([i, j])
+                cCol += 1
+
+            if len(res) >= required: break
+            
+            while cRow < row:
+                i += 1
+                if j > -1 and j < cols and i > -1 and i < rows:
+                    res.append([i, j])
+                cRow += 1
+
+            if len(res) >= required: break
+            
+            cRow, cCol = 0, 0
+            row += 1
+            col += 1
+
+            while cCol < col:
+                j -= 1
+                if j > -1 and j < cols and i > -1 and i < rows:
+                    res.append([i, j])
+                cCol += 1
+
+            if len(res) >= required: break
+            
+            while cRow < row:
+                i -= 1
+                if j > -1 and j < cols and i > -1 and i < rows:
+                    res.append([i, j])
+                cRow += 1
+
+            if len(res) >= required: break
+
+            cRow, cCol = 0, 0
+            row += 1
+            col += 1
         
-        while len(result) < rows * cols:
-            for _ in range(2):  # Two times per layer
-                for _ in range(steps):
-                    if 0 <= r < rows and 0 <= c < cols:
-                        result.append([r, c])
-                    r += directions[d][0]
-                    c += directions[d][1]
-                d = (d + 1) % 4
-            steps += 1
-        
-        return result
+        return res
