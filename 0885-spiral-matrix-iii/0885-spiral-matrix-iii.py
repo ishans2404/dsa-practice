@@ -6,12 +6,11 @@ class Solution:
         d = 0
         r, c = rStart, cStart
         
-        while True:
+        while len(result) < rows * cols:
             for _ in range(2):  # Two times per layer
                 for _ in range(steps):
                     if 0 <= r < rows and 0 <= c < cols:
                         result.append([r, c])
-                        if len(result) == rows * cols: return result
                     r += directions[d][0]
                     c += directions[d][1]
                 d = (d + 1) % 4
