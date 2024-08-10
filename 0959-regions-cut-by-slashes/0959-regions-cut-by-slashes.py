@@ -1,52 +1,45 @@
 class Solution:
-    def __init__(self):
-        self.parent = []
-        self.rank = []
-        self.count = 0
+    def regionsBySlashes(self, grid: List[str]) -> int:
+        R, C = len(grid), len(grid[0])
 
-    def regionsBySlashes(self, grid):
-        n = len(grid)
-        dots = n + 1
-        self.parent = [i for i in range(dots * dots)]
-        self.rank = [1] * (dots * dots)
+        # initialize new grid
+        mygrid = [[False] * (C * 3) for i in range(R * 3)]
+        row, col = R*3, C*3
 
-        # Connect boundaries to the top-left corner (0,0)
-        for i in range(dots):
-            for j in range(dots):
-                if i == 0 or j == 0 or i == n or j == n:
-                    cell = i * dots + j
-                    self.union(0, cell)
+        # fill new grid
+        for x in range(R):
+            for y in range(C):
+                i, j = x*3, y*3
+                if grid[x][y] == "/":
+                    mygrid[i][j+2] = True
+                    mygrid[i+1][j+1] = True
+                    mygrid[i+2][j] = True
+                elif grid[x][y] == "\\":
+                    mygrid[i][j] = True
+                    mygrid[i+1][j+1] = True
+                    mygrid[i+2][j+2] = True
+        
+        # directions = down, up, right, left
+        directions = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+        # mark the visited cells true   
+        def bfs(i, j):
+            q = collections.deque()
+            q.append((i, j))
+            mygrid[i][j] = True
 
-        # Process each cell and connect regions based on slashes
-        for i in range(n):
-            for j in range(n):
-                if grid[i][j] == '\\':
-                    cell1 = i * dots + j
-                    cell2 = (i + 1) * dots + (j + 1)
-                    self.union(cell1, cell2)
-                elif grid[i][j] == '/':
-                    cell1 = (i + 1) * dots + j
-                    cell2 = i * dots + (j + 1)
-                    self.union(cell1, cell2)
+            while q:
+                x, y = q.popleft()
+                for dx, dy in directions:
+                    nx, ny = x + dx, y + dy
+                    if 0 <= nx < row and 0 <= ny < col and not mygrid[nx][ny]:
+                        mygrid[nx][ny] = True
+                        q.append((nx, ny))
 
-        return self.count
+        region = 0
+        for i in range(row):
+            for j in range(col):
+                if not mygrid[i][j]:
+                    region += 1
+                    bfs(i, j)
 
-    def union(self, a, b):
-        parentA = self.find(a)
-        parentB = self.find(b)
-        if parentA == parentB:
-            self.count += 1
-        else:
-            if self.rank[parentA] > self.rank[parentB]:
-                self.parent[parentB] = parentA
-            elif self.rank[parentA] < self.rank[parentB]:
-                self.parent[parentA] = parentB
-            else:
-                self.parent[parentB] = parentA
-                self.rank[parentA] += 1
-
-    def find(self, a):
-        if self.parent[a] == a:
-            return a
-        self.parent[a] = self.find(self.parent[a])
-        return self.parent[a]
+        return region
