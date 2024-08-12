@@ -2,9 +2,10 @@ class KthLargest:
 
     def __init__(self, k: int, nums: List[int]):
         self.arr = sorted(nums)
+        self.arr = self.arr[-k:]
         self.idx = -k
 
-    def add(self, val: int) -> int:
+    def add(self, val: int) -> int: 
         low, high = 0, len(self.arr)
         while low < high:
             mid = low + (high - low) // 2
@@ -14,6 +15,7 @@ class KthLargest:
                 high = mid
         
         self.arr.insert(low, val)
+        self.arr = self.arr[self.idx:]
         return self.arr[self.idx]
 
 
