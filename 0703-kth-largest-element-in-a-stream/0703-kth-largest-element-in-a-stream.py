@@ -5,8 +5,15 @@ class KthLargest:
         self.idx = -k
 
     def add(self, val: int) -> int:
-        self.arr.append(val)
-        self.arr = sorted(self.arr)
+        low, high = 0, len(self.arr)
+        while low < high:
+            mid = low + (high - low) // 2
+            if self.arr[mid] < val:
+                low = mid + 1
+            else:
+                high = mid
+        
+        self.arr.insert(low, val)
         return self.arr[self.idx]
 
 
