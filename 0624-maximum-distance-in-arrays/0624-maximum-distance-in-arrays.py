@@ -11,3 +11,24 @@ class Solution:
             cur_max = max(cur_max, arr[-1])
 
         return diff
+
+def main():
+    input = sys.stdin.read().strip()
+    
+
+    test_cases = input.splitlines()
+    
+    results = []
+    for case in test_cases:
+       
+        arrays = json.loads(case)
+        results.append(Solution().maxDistance(arrays))
+    
+
+    with open('user.out', 'w') as f:
+        for result in results:
+            f.write(f"{result}\n")
+
+if __name__ == "__main__":
+    main()
+    exit(0)
