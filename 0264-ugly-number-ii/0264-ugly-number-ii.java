@@ -1,23 +1,27 @@
+import java.util.PriorityQueue;
+import java.util.Set;
+import java.util.HashSet;
+
 class Solution {
     public int nthUglyNumber(int n) {
-        int[] primes = {2, 3, 5};
-        PriorityQueue<Long> uglyHeap = new PriorityQueue<>();
-        HashSet<Long> visited = new HashSet<>();
+        PriorityQueue<Long> heap = new PriorityQueue<Long>();
+        Set<Long> set = new HashSet<Long>();
+        int[] factors = {2, 3, 5};
         
-        uglyHeap.add(1L);
-        visited.add(1L);
-        
-        long curr = 1L;
+        heap.add(1L);
+        set.add(1L);
+        long uglyNum = 0;
+
         for (int i = 0; i < n; i++) {
-            curr = uglyHeap.poll();
-            for (int prime : primes) {
-                long new_ugly = curr * prime;
-                if (!visited.contains(new_ugly)) {
-                    uglyHeap.add(new_ugly);
-                    visited.add(new_ugly);
+            uglyNum = heap.poll();
+            for (int fact : factors) {
+                long newUgly = uglyNum * fact;
+                if (set.contains(newUgly) == false) {
+                    set.add(newUgly);
+                    heap.add(newUgly);
                 }
             }
         }
-        return (int)curr;
+        return (int) uglyNum;
     }
 }
