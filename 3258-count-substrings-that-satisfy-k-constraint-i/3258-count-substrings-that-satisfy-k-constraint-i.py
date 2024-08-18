@@ -1,18 +1,19 @@
 class Solution:
     def countKConstraintSubstrings(self, s: str, p: int) -> int:
-        print(s, p)
         cnt = 0
         for i in range(len(s)):
+            z, o = 0, 0
             for j in range(i, len(s)):
-                z, o = 0, 0
-                for k in range(i, j+1):
-                    if s[k] == '0':
-                        z += 1
-                    else:
-                        o += 1
-                cnt += 1
-                if p < z and p < o:
-                    cnt -= 1
+                
+                if s[j] == '0':
+                    z += 1
+                else:
+                    o += 1
+                
+                if p >= z or p >= o:
+                    cnt += 1
+                else:
+                    break
         return cnt
         
 def main():
