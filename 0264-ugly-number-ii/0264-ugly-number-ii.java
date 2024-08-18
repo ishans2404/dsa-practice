@@ -1,27 +1,20 @@
-import java.util.PriorityQueue;
-import java.util.Set;
-import java.util.HashSet;
-
 class Solution {
     public int nthUglyNumber(int n) {
-        PriorityQueue<Long> heap = new PriorityQueue<Long>();
-        Set<Long> set = new HashSet<Long>();
-        int[] factors = {2, 3, 5};
-        
-        heap.add(1L);
-        set.add(1L);
-        long uglyNum = 0;
+        long[] nums = new long[n];
+        nums[0] = 1;
+        int i2 = 0;
+        int i3 = 0;
+        int i5 = 0;
 
-        for (int i = 0; i < n; i++) {
-            uglyNum = heap.poll();
-            for (int fact : factors) {
-                long newUgly = uglyNum * fact;
-                if (set.contains(newUgly) == false) {
-                    set.add(newUgly);
-                    heap.add(newUgly);
-                }
-            }
+        for (int i = 1; i < n; i++) {
+            long nextUgly = Math.min(nums[i2] * 2, Math.min(nums[i3] * 3, nums[i5] * 5));
+            nums[i] = nextUgly;
+
+            if (nextUgly == nums[i2] * 2) i2++;
+            if (nextUgly == nums[i3] * 3) i3++;
+            if (nextUgly == nums[i5] * 5) i5++;
         }
-        return (int) uglyNum;
+
+        return (int)nums[n - 1];
     }
 }
