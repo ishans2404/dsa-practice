@@ -1,15 +1,21 @@
 class Answer{
     public int[] dp = new int[1001];
-    Answer() {
-        for(int i = 0; i <= 1000; i++) dp[i] = 1000;
-        dp[1] = 0;
+    int helper(int n) {
+        if(n == 1) return 0;
 
-        for(int i = 2; i <= 1000; i++) {
-            for(int j = 1; j <= (i / 2); j++) {
-                if(i % j == 0) {
-                    dp[i] = Math.min(dp[i], dp[j] + (i / j));
-                }
+        int steps = 0;
+        for(int i = 2; i * i <= n; i++) {
+            while(n % i == 0) {
+                steps += i;
+                n /= i;
             }
+        }
+        if(n > 1) steps += n;
+        return steps;
+    }
+    Answer() {
+        for(int i = 0; i <= 1000; i++) {
+            dp[i] = helper(i);
         }
     }
 }
