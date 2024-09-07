@@ -24,16 +24,16 @@
  * }
  */
 class Solution {
-    public boolean helper(ListNode listnode, TreeNode treenode) {
-        if(listnode == null) return true;
-        if(treenode == null || listnode.val != treenode.val) return false;
-        boolean res = helper(listnode.next, treenode.left) || helper(listnode.next, treenode.right);
-        return res;
+    public boolean dfs(ListNode listhead, ListNode listcurr, TreeNode treenode) {
+        if(listcurr == null) return true;
+        if(treenode == null) return false;
+        if(listcurr.val == treenode.val) listcurr = listcurr.next;
+        else if(listhead.val == treenode.val) listhead = listhead.next;
+        else listcurr = listhead;
+        return dfs(listhead, listcurr, treenode.left) || dfs(listhead, listcurr, treenode.right);
     }
 
     public boolean isSubPath(ListNode head, TreeNode root) {
-        if(helper(head, root)) return true;
-        if(root == null) return false;
-        return isSubPath(head, root.left) || isSubPath(head, root.right);
+        return dfs(head, head, root);
     }
 }
