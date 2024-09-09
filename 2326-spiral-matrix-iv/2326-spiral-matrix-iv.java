@@ -13,49 +13,41 @@ class Spiral {
     int[][] matrix;
     public Spiral(int m, int n, ListNode head) {
         matrix = new int[m][n];
+        for(int i = 0; i < m; i++) {
+            Arrays.fill(matrix[i], -1);
+        }
         fillMatrixInSpiral(m, n, head);
     }
-    private void fillMatrixInSpiral(int m, int n, ListNode head) {
-        int l = 0, r = n-1, t = 0, b = m-1;
-        int cells = 0, tot = m*n;
+    private void fillMatrixInSpiral(int rows, int columns, ListNode head) {
+        int topRow = 0, bottomRow = rows - 1, leftColumn = 0, rightColumn = columns - 1;
+        while (head != null) {
+        
+            for (int col = leftColumn; col <= rightColumn && head != null; col++) {
+                matrix[topRow][col] = head.val;
+                head = head.next;
+            }
+            topRow++;
 
-        while(head != null || cells < tot) {
-            for(int j=l; j<=r && l<=r && t<=b; j++) {
-                if(head != null) {
-                    matrix[t][j] = head.val;
-                    head = head.next;
-                }
-                else matrix[t][j] = -1;
-                cells++;
+        
+            for (int row = topRow; row <= bottomRow && head != null; row++) {
+                matrix[row][rightColumn] = head.val;
+                head = head.next;
             }
-            t++;
-            for(int i=t; i<=b && l<=r && t<=b; i++) {
-                if(head != null) {
-                    matrix[i][r] = head.val;
-                    head = head.next;
-                }
-                else matrix[i][r] = -1;
-                cells++;
+            rightColumn--;
+
+ 
+            for (int col = rightColumn; col >= leftColumn && head != null; col--) {
+                matrix[bottomRow][col] = head.val;
+                head = head.next;
             }
-            r--;
-            for(int j=r; j>=l && l<=r && t<=b; j--) {
-                if(head != null) {
-                    matrix[b][j] = head.val;
-                    head = head.next;
-                }
-                else matrix[b][j] = -1;
-                cells++;
+            bottomRow--;
+
+       
+            for (int row = bottomRow; row >= topRow && head != null; row--) {
+                matrix[row][leftColumn] = head.val;
+                head = head.next;
             }
-            b--;
-            for(int i=b; i>=t && l<=r && t<=b; i--) {
-                if(head != null) {
-                    matrix[i][l] = head.val;
-                    head = head.next;
-                }
-                else matrix[i][l] = -1;
-                cells++;
-            }
-            l++;
+            leftColumn++;
         }
     }
 }
