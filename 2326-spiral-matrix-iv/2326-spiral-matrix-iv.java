@@ -13,41 +13,43 @@ class Spiral {
     int[][] matrix;
     public Spiral(int m, int n, ListNode head) {
         matrix = new int[m][n];
-        for(int i = 0; i < m; i++) {
-            Arrays.fill(matrix[i], -1);
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                matrix[i][j] = -1;
+            }
         }
         fillMatrixInSpiral(m, n, head);
     }
-    private void fillMatrixInSpiral(int rows, int columns, ListNode head) {
-        int topRow = 0, bottomRow = rows - 1, leftColumn = 0, rightColumn = columns - 1;
-        while (head != null) {
-        
-            for (int col = leftColumn; col <= rightColumn && head != null; col++) {
-                matrix[topRow][col] = head.val;
-                head = head.next;
+    private void fillMatrixInSpiral(int m, int n, ListNode curr) {
+        int top = 0, bottom = m-1, left = 0, right= n-1;
+        while(curr != null && top<=bottom && left <=right){
+            // Fill top row (left to right)
+            for(int i=left; i<=right && curr!=null; i++){
+                matrix[top][i] = curr.val;
+                curr = curr.next;
             }
-            topRow++;
+            top++;
 
-        
-            for (int row = topRow; row <= bottomRow && head != null; row++) {
-                matrix[row][rightColumn] = head.val;
-                head = head.next;
+            // Fill right column (top to bottom)
+            for(int i=top; i<=bottom && curr!=null; i++){
+                matrix[i][right]= curr.val;
+                curr = curr.next;
             }
-            rightColumn--;
+            right--;
 
- 
-            for (int col = rightColumn; col >= leftColumn && head != null; col--) {
-                matrix[bottomRow][col] = head.val;
-                head = head.next;
+            // Fill bottom row (right to left)
+            for(int i=right; i>=left && curr != null; i--){
+                matrix[bottom][i] = curr.val;
+                curr = curr.next;
             }
-            bottomRow--;
+            bottom--;
 
-       
-            for (int row = bottomRow; row >= topRow && head != null; row--) {
-                matrix[row][leftColumn] = head.val;
-                head = head.next;
+            // Fill left column (bottom to top)
+            for(int i=bottom; i>=top && curr!=null; i--){
+                matrix[i][left] = curr.val;
+                curr = curr.next;
             }
-            leftColumn++;
+            left++;
         }
     }
 }
