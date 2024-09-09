@@ -13,43 +13,49 @@ class Spiral {
     int[][] matrix;
     public Spiral(int m, int n, ListNode head) {
         matrix = new int[m][n];
-        for(int i=0; i<m; i++){
-            for(int j=0; j<n; j++){
-                matrix[i][j] = -1;
-            }
-        }
         fillMatrixInSpiral(m, n, head);
     }
-    private void fillMatrixInSpiral(int m, int n, ListNode curr) {
-        int top = 0, bottom = m-1, left = 0, right= n-1;
-        while(curr != null && top<=bottom && left <=right){
-            // Fill top row (left to right)
-            for(int i=left; i<=right && curr!=null; i++){
-                matrix[top][i] = curr.val;
-                curr = curr.next;
-            }
-            top++;
+    private void fillMatrixInSpiral(int m, int n, ListNode head) {
+        int l = 0, r = n-1, t = 0, b = m-1;
+        int cells = 0, tot = m*n;
 
-            // Fill right column (top to bottom)
-            for(int i=top; i<=bottom && curr!=null; i++){
-                matrix[i][right]= curr.val;
-                curr = curr.next;
+        while(head != null || cells < tot) {
+            for(int j=l; j<=r && l<=r && t<=b; j++) {
+                if(head != null) {
+                    matrix[t][j] = head.val;
+                    head = head.next;
+                }
+                else matrix[t][j] = -1;
+                cells++;
             }
-            right--;
-
-            // Fill bottom row (right to left)
-            for(int i=right; i>=left && curr != null; i--){
-                matrix[bottom][i] = curr.val;
-                curr = curr.next;
+            t++;
+            for(int i=t; i<=b && l<=r && t<=b; i++) {
+                if(head != null) {
+                    matrix[i][r] = head.val;
+                    head = head.next;
+                }
+                else matrix[i][r] = -1;
+                cells++;
             }
-            bottom--;
-
-            // Fill left column (bottom to top)
-            for(int i=bottom; i>=top && curr!=null; i--){
-                matrix[i][left] = curr.val;
-                curr = curr.next;
+            r--;
+            for(int j=r; j>=l && l<=r && t<=b; j--) {
+                if(head != null) {
+                    matrix[b][j] = head.val;
+                    head = head.next;
+                }
+                else matrix[b][j] = -1;
+                cells++;
             }
-            left++;
+            b--;
+            for(int i=b; i>=t && l<=r && t<=b; i--) {
+                if(head != null) {
+                    matrix[i][l] = head.val;
+                    head = head.next;
+                }
+                else matrix[i][l] = -1;
+                cells++;
+            }
+            l++;
         }
     }
 }
