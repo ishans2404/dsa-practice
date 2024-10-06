@@ -16,24 +16,3 @@ class Solution:
                 break
             suf += 1
         return suf + pre > m - 1
-
-def newmain():
-    input_data = sys.stdin.read().strip()
-    lines = input_data.splitlines()
-    
-    num_test_cases = len(lines) // 2
-    results = []
-
-    for i in range(num_test_cases):
-        s1 = json.loads(lines[2*i])
-        s2 = json.loads(lines[2*i+1])
-        result = Solution().areSentencesSimilar(s1, s2)
-        results.append(json.dumps(result, separators=(',', ':')))
-
-    with open('user.out', 'w') as f:
-        for result in results:
-            f.write(f"{result}\n")
-
-if __name__ == "__main__":
-    newmain()
-    exit(0)
