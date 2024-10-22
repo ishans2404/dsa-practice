@@ -8,15 +8,19 @@
 class Solution:
     def kthLargestLevelSum(self, root: Optional[TreeNode], k: int) -> int:
         q = deque([root])
-        minHeap = []   # keep size atmost k
+        level_sums = []
         while q:
             lvlSum = 0
-            for i in range(len(q)):
+            for _ in range(len(q)):
                 node = q.popleft()
                 lvlSum += node.val
                 if node.left: q.append(node.left)
                 if node.right: q.append(node.right)
-            heapq.heappush(minHeap, lvlSum)
+            level_sums.append(lvlSum)
+        minHeap = []
+        for sum_val in level_sums:
+            heapq.heappush(minHeap, sum_val)
             if len(minHeap) > k:
                 heapq.heappop(minHeap)
+
         return minHeap[0] if len(minHeap) == k else -1
