@@ -1,18 +1,18 @@
 class Solution:
     def countSquares(self, matrix: List[List[int]]) -> int:
         R, C = len(matrix), len(matrix[0])
-        dp = defaultdict(int)
+        dp = [0] * (C+1)
         res = 0
         for r in range(R):
-            curr = defaultdict(int)
+            curr = [0] * (C+1)
             for c in range(C):
                 if matrix[r][c] == 1:
-                    curr[c] = 1 + min(
+                    curr[c+1] = 1 + min(
+                        dp[c+1],
                         dp[c],
-                        dp[c - 1],
-                        curr[c - 1]
+                        curr[c]
                     )
-                    res += curr[c]
+                    res += curr[c+1]
             dp = curr
                 
         return res
