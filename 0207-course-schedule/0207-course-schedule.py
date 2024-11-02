@@ -1,4 +1,5 @@
 class Graph:
+    # -1: not processed, 0: processing, 1: processed
     def __init__(self, val):
         self.V = val
         self.children = defaultdict(list)
@@ -6,29 +7,19 @@ class Graph:
     def addEdge(self, u, v):
         self.children[u].append(v)
 
-    def isCyclic(self):
-        visited = set()
-        recStack = set()
-
-        def dfs(u):
-            if u in recStack:
+    def dfsutil(self, u, color):
+        color[u] = 0
+        for v in self.children[u]:
+            if color[v] == 0 or (color[v] == -1 and self.dfsutil(v, color)):
                 return True
-            if u in visited:
-                return False
-            
-            recStack.add(u)
-            for v in self.children[u]:
-                if dfs(v):
-                    return True
-            
-            recStack.remove(u)
-            visited.add(u)
-            return False
+        color[u] = 1
+        return False
     
+    def isCyclic(self):
+        color = [-1] * self.V
         for i in range(self.V):
-            if i not in visited:
-                if dfs(i):
-                    return True
+            if color[i] == -1 and self.dfsutil(i, color):
+                return True
         return False
 
 class Solution:
