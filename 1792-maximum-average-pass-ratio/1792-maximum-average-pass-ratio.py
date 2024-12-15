@@ -2,22 +2,16 @@ from heapq import heapify, heappush, heappop
 class Solution:
     def maxAverageRatio(self, c: List[List[int]], e: int) -> float:
         res = 0
-        nums = []
-        for p, t in c:
-            diff = (p/t) - ((p+1)/(t+1))
-            nums.append([diff, p, t])
-        heapify(nums)
-        while e > 0:
-            e -= 1
-            r, p, t = heappop(nums)
-            p += 1
-            t += 1
-            diff = (p/t) - ((p+1)/(t+1))
-            heappush(nums, [diff, p, t])
-        while nums:
-            r, p, t = heappop(nums)
+        n = len(c)
+        for i in range(n):
+            p, t = c[i][0], c[i][1]
+            c[i] = (p/t - (p+1)/(t+1), p, t)
+        heapify(c)
+        for _ in range(e):
+            r, p, t = heappop(c)
+            p, t = p + 1, t + 1
+            diff = p/t - (p+1)/(t+1)
+            heappush(c, (diff, p, t))
+        for r, p, t in c:
             res += p/t
-        
-        return res/len(c)
-
-
+        return res/n
