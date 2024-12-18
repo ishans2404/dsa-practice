@@ -1,9 +1,12 @@
 class Solution:
     def finalPrices(self, p: List[int]) -> List[int]:
         n = len(p)
-        for i in range(n - 1):
-            for j in range(i + 1, n):
-                if p[j] <= p[i]:
-                    p[i] -= p[j]
-                    break
-        return p
+        res = p.copy()
+        stk = []
+        for i in range(n):
+            while stk and p[stk[-1]] >= p[i]:
+                j = stk.pop()
+                res[j] -= p[i]
+            stk.append(i)
+
+        return res
